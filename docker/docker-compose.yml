@@ -2,8 +2,8 @@ version: '3'
 services:
   mysql:
     build:
-      context: .
-      dockerfile: ./mysql/Dockerfile
+      context: ..
+      dockerfile: docker/mysql/Dockerfile
     container_name: mysql_host
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -12,8 +12,10 @@ services:
       MYSQL_PASSWORD: docker
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./mysql/sql:/docker-entrypoint-initdb.d  #初期データ
+      - ./mysql/sql:/docker-entrypoint-initdb.d
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/mysql-dbaccess.cnf:/root/mysql-dbaccess.cnf
     ports:
-      - 3316:3306
+      - "3307:3306"
+    security_opt:
+      - seccomp:unconfined
